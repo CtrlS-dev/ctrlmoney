@@ -65,6 +65,7 @@ seccionFacturas.addEventListener('click', e =>  {
   if (!tableControl.classList.contains('hidden')) {
     tableControl.classList.add('hidden');
     inputsControl.classList.add('hidden');
+    inputsControl.classList.remove('grid');
     divCierreBtn.classList.add('hidden');
     divCierreBtn.classList.remove('flex');
     divCierre.classList.add('hidden');
@@ -102,6 +103,7 @@ seccionVentas.addEventListener('click', e => {
   if (!tableControl.classList.contains('hidden')) {
     tableControl.classList.add('hidden');
     inputsControl.classList.add('hidden');
+    inputsControl.classList.remove('grid');
     divCierreBtn.classList.add('hidden');
     divCierreBtn.classList.remove('flex');
     divCierre.classList.add('hidden');
@@ -118,6 +120,7 @@ seccionControl.addEventListener('click', e => {
   clickOn(seccionControl, seccionFacturas, seccionVentas);
   tableControl.classList.remove('hidden');
   inputsControl.classList.remove('hidden');
+  inputsControl.classList.add('grid');
   divCierreBtn.classList.add('flex');
   divCierreBtn.classList.remove('hidden');
   divCierre.classList.add('flex');
@@ -180,6 +183,7 @@ seccionFacturasPc.addEventListener('click', e =>  {
   if (!tableControl.classList.contains('hidden')) {
     tableControl.classList.add('hidden');
     inputsControl.classList.add('hidden');
+    inputsControl.classList.remove('grid');
     divCierreBtn.classList.add('hidden');
     divCierreBtn.classList.remove('flex');
     divCierre.classList.add('hidden');
@@ -217,6 +221,7 @@ seccionVentasPc.addEventListener('click', e => {
   if (!tableControl.classList.contains('hidden')) {
     tableControl.classList.add('hidden');
     inputsControl.classList.add('hidden');
+    inputsControl.classList.remove('grid');
     divCierreBtn.classList.add('hidden');
     divCierreBtn.classList.remove('flex');
     divCierre.classList.add('hidden');
@@ -233,6 +238,7 @@ seccionControlPc.addEventListener('click', e => {
   clickOn(seccionControlPc, seccionFacturasPc, seccionVentasPc);
   tableControl.classList.remove('hidden');
   inputsControl.classList.remove('hidden');
+  inputsControl.classList.add('grid');
   divCierreBtn.classList.add('flex');
   divCierreBtn.classList.remove('hidden');
   divCierre.classList.add('flex');
