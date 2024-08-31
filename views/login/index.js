@@ -1,4 +1,4 @@
-import { createNotification } from "../components/notification.js";
+// import { createNotification } from "../components/notification.js";
 
 const emailInput = document.querySelector('#email-input');
 const passwordInput = document.querySelector('#password-input');
@@ -19,10 +19,6 @@ form.addEventListener('submit', async e => {
     window.location.pathname = `/facturas/`
   } catch (error) {
     console.log(error);
-    createNotification(true, error.response.data.error);
-    setTimeout(() => {
-      notification.innerHTML = "";
-    }, 5000);
   }
 });
 

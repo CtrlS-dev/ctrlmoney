@@ -13,7 +13,7 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Ctrl Money</title>
 </head>
-<body class="bg-[#fbf9f9]">
+<body class="bg-[#fbf9f9] px-8">
   <!-- preload -->
   <div id="preload" class="fixed hidden inset-0 items-center justify-center bg-black/50 z-[1000]">
     <div class="text-center">
@@ -106,7 +106,7 @@
     </div>
 
     <!-- navbar pc -->
-    <div class="animate__animated  animate__fadeInDown md:flex flex-col hidden sticky top-0 drop-shadow-lg left-0 items-center right-0 h-40 md:h-4 z-50 p-4">
+    <div class="animate__animated  animate__fadeInDown md:flex flex-col hidden fixed top-0 drop-shadow-lg left-0 items-center right-0 h-40 md:h-4 z-50 p-4">
       <div class="justify-between fixed top-0 right-0 left-0 bg-white p-2 grid grid-cols-3 items-center w-full  backdrop-blur-xl h-16">  
         <!-- logo -->
         <div class="mx-2">
@@ -225,9 +225,6 @@
     <!-- ~~~~~ table facturas ~~~~~ -->
       <!-- inputs para añadir facturas-->
       <div id="inputs-facturas" class="hidden w-full rounded-2xl bg-white shadow-lg mb-8 border-2 border-black/20 cursor-pointer h-26 items-center justify-center z-30 transition-all duration-300 ease-linear md:grid-cols-5 grid-cols-1">
-      <div class="text-center font-[600] text-lg p-4">
-        <h2>Añadir factura</h2>
-      </div>
       <!-- Fecha -->
       <div class="p-3 text-sm text-gray-700">
         <label for="input-fecha" class="ml-2">Fecha</label>
@@ -436,8 +433,6 @@
         </div>
       </div>
 
-
-
       <!-- ~~~~~ table ventas ~~~~~ -->
        <div class="max-h-[64rem] overflow-y-auto rounded-2xl">
          <table id="table-ventas" class="hidden w-full">
@@ -464,7 +459,6 @@
           <p id="cantidad-ventas"></p>
         </div>
       </div>
-
       <!-- table resumen -->
       <table id="table-resumen" class="hidden w-full">
         <!-- inputs para añadir -->
@@ -539,9 +533,9 @@
           <p id="cantidad-resumen"></p>
         </div>
       </div>
-      
+
       <!-- table control -->
-      <div class="max-h-[64rem] overflow-y-auto rounded-2xl">
+      <div class="max-h-[64rem] overflow-y-auto rounded-2xl px-5">
         <table id="table-control" class="hidden w-full">
           <thead class="bg-gray-50 border-b-2 border-gray-500 sticky top-0 z-40 text-gray-600 shadow-xl">
             <tr>

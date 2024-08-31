@@ -9,6 +9,7 @@ const formBtn = document.querySelector('#form-btn');
 const notification = document.querySelector('#notification');
 const eyePass = document.querySelector('#eye1');
 const eyePassConfirm = document.querySelector('#eye2');
+const preload = document.querySelector('#preload');
 
 
 // Regex Validations
@@ -76,6 +77,8 @@ eyePassConfirm.addEventListener('click', e => {
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
+  preload.classList.add('flex');
+  preload.classList.remove('hidden');
   try {
     const newUser = {
       name: nameInput.value,
@@ -100,6 +103,9 @@ form.addEventListener('submit', async e => {
     setTimeout(() => {
       notification.innerHTML = "";
     }, 5000);
+  } finally {
+    preload.classList.remove('flex');
+    preload.classList.add('hidden');
   }
   
 });

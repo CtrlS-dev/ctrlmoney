@@ -6,16 +6,18 @@ const nodemailer = require('nodemailer');
 const { PAGE_URL } = require('../config');
 
 usersRouter.post('/',async (request, response) => {
-  const { name, email, password} = request.body
-  
-  // Creo notificacion de error en caso de que algun campo esté vacío o incorrecto
-  if (!name || !email || !password) {
+  try {
+    
+    const { name, email, password} = request.body
+    
+    // Creo notificacion de error en caso de que algun campo esté vacío o incorrecto
+    if (!name || !email || !password) {
     return response.status(400).json({error: 'Todos los espacios son requeridos'});
   }
 
   // compruebo si el email ya existe
   const existingUser = await User.findOne({ email });
-
+  
   if (existingUser) {
     return response.status(400).json({error: 'Este correo ya está registrado'});
   }
@@ -36,9 +38,9 @@ usersRouter.post('/',async (request, response) => {
   const token = jwt.sign({ id: savedUser.id }, process.env.ACCES_TOKEN_SECRET,{
     expiresIn: '1d'
   });
-
   
-
+  
+  
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -48,15 +50,18 @@ usersRouter.post('/',async (request, response) => {
       pass: process.env.EMAIL_PASS,
     },
   });
-
+  
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: savedUser.email, // list of receivers
     subject: "Verificacion de usuario ✔", // Subject line
     html: `<a href="${PAGE_URL}/verify/${savedUser.id}/${token}">Verificar Correo</a>`, // html body
   });
-
+  
   return response.status(201).json('Usuario creado. Por favor verificar tu correo');
+} catch (error) {
+  return response.status(400).json({error: error});
+}
   
 });
 
