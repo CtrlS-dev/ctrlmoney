@@ -39,10 +39,6 @@ const preload = document.querySelector('#preload');
 // seccionInicio.addEventListener('click', e => {
   
 // });
-try {
-  preload.classList.add('flex');
-  preload.classList.remove('flex');
-
 seccionFacturas.addEventListener('click', e =>  {
   // agregar clases
   clickOn(seccionFacturas, seccionVentas, seccionControl);
@@ -1268,7 +1264,7 @@ btnAddControl.addEventListener('click', async e => {
     <!-- Fecha -->
           <td class="p-3 text-base text-gray-700 whitespace-nowrap indent-9">
             <div>
-                <p class="">${year} ${mes} ${dia}</p>
+                <p class="">${year}-${mes}-${dia}</p>
               </div>
           </td>
     <!-- Descripción -->
@@ -1303,6 +1299,7 @@ btnAddControl.addEventListener('click', async e => {
     `;
     
     tableBodyControl.append(newRow);
+    
   } catch (error) {
     createNotification(true, error.response.data.error);
     setTimeout(() => {
@@ -1490,6 +1487,151 @@ dollarSource.addEventListener('change', (e) => {
 btnCierre.addEventListener('click', () => {
   modalCierre.classList.remove('hidden');
   modalCierre.classList.add('flex');
+  tableBodyControl.innerHTML = '';
+  (async () => {
+  //mostrar preload
+  preload.classList.remove('hidden');
+  preload.classList.add('flex');
+  
+  try {
+    const { data } = await axios.get('/api/controls', {
+      withCredentials: true
+    });
+    const { names, values } = getPaymentMethods();    
+    // Función para convertir el número del mes a nombre
+    const getMonthName = (monthNumber) => {
+      const months = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ];
+      return months[monthNumber];
+    };
+    data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    data.forEach(control => {
+      // Formatear la fecha
+      const fecha = new Date(control.fecha);
+      // Sumar un día
+      fecha.setDate(fecha.getDate() + 1);
+      const dia = fecha.getDate().toString().padStart(2, '0');
+      const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+      const year = fecha.getFullYear().toString().padStart(4, '0');
+      
+  
+      const newRow = document.createElement('tr');
+      newRow.id = control.id;
+      newRow.classList.add('bg-white', 'cursor-pointer', 'hover:bg-slate-200', 'transition-all', 'duration-300', 'ease-linear');
+      // Crear la celda de métodos de pago
+      // Primero convierto la cadena en un array
+      let metodosPago = control.metodos_pago ? control.metodos_pago.split(',') : [];
+      let valoresMetodos = control.valor_metodos ? control.valor_metodos.split(',') : [];
+      // Inicializar HTML y variables
+      let metodosPagoHTML = '';
+      let totalValores = 0;
+      let totalValoresDolar = 0;
+
+
+      // Asegurarse de que valoresMetodos contenga números válidos
+      valoresMetodos = valoresMetodos.map(valor => parseFloat(valor.replace(',', '')) || 0);
+
+      // Calcular el total de valores
+      // totalValores = valoresMetodos.reduce((sum, valor) => sum + valor, 0);
+
+      // totalValoresDolar = totalValores * dolarVeneco;
+
+
+      // Crear el HTML para los métodos de pago
+    if (metodosPago.length > 0 && valoresMetodos.length > 0) {
+      metodosPago.forEach((name, index) => {
+        
+        if (name === 'PDV') { 
+          metodosPagoHTML += `
+          <p class="inline-block bg-blue-300 text-blue-900 text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+            <span class="">• ${name}</span>: <span class="font-medium">${valoresMetodos[index].toLocaleString('es-ES')} BsS</span>
+          </p>
+        `;
+        } else if (name === 'PM'){
+          metodosPagoHTML += `
+          <p class="inline-block bg-yellow-300 text-yellow-900 text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+            <span class="">• ${name}</span>: <span class="font-medium">${valoresMetodos[index].toLocaleString('es-ES')} BsS</span>
+          </p>
+        `;
+        } else if (name === 'Efectivo Bs') {
+          metodosPagoHTML += `
+          <p class="inline-block bg-red-300 text-red-900 text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+            <span class="">• ${name}</span>: <span class="font-medium">${valoresMetodos[index].toLocaleString('es-ES')} BsS</span>
+          </p>
+        `;
+        } else if (name === 'Efectivo $') {
+          metodosPagoHTML += `
+          <p class="inline-block bg-green-300 text-green-900 text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+            <span class="">• ${name}</span>: <span class="font-medium">${valoresMetodos[index].toLocaleString('es-ES')} $</span>
+          </p>
+        `;
+        }
+      });
+
+      // Añadir el total
+      // metodosPagoHTML += `
+      //   <p class="inline-block bg-green-500 text-white text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+      //     Total: <span class="font-medium">${totalValores.toLocaleString('es-ES')}</span>
+      //   </p>
+      // `;
+      // metodosPagoHTML += `
+      //   <p class="inline-block bg-green-500 text-white text-base px-3 w-fit py-1 rounded-full font-medium h-8">
+      //     Total en $: <span class="font-medium">${totalValoresDolar.toLocaleString('es-ES')}</span>
+      //   </p>
+      // `;
+
+      
+      } else {
+        metodosPagoHTML = '<p>No hay métodos de pago disponibles</p>';
+      }
+      newRow.innerHTML = `
+      <!-- Fecha -->
+            <td class="p-3 text-base text-gray-700 whitespace-nowrap indent-9">
+              <div>
+                  <p class="fechas">${year}-${mes}-${dia}</p>
+                </div>
+            </td>
+      <!-- Descripción -->
+            <td class="p-3 text-base text-gray-700">
+              <div>
+                <p class="uppercase">${control.descripcion}</p>
+              </div>
+            </td>
+      <!-- Cantidad -->
+            <td class="p-3 text-base text-gray-700 whitespace-nowrap">
+              <p>${control.cantidad}<span> Und</span></p>
+            </td>
+      <!-- Metodos de pago -->
+            <td class="p-3 text-base text-gray-700 whitespace-nowrap flex flex-col gap-2">
+              <p>${metodosPagoHTML}</p>
+            </td>
+            <!-- Buttons -->
+            <td>
+              <div id="btns-acciones" class="p-3 text-sm text-gray-700 whitespace-nowrap flex gap-2 items-center justify-center mr-4">
+                <!-- Edit -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="accion-edit size-8 text-green-500 hover:text-green-900 transition-all duration-300 ease-linear">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="accion-delete size-8 text-red-500 hover:text-red-800 transition-all duration-300 ease-linear" width="24" height="24" color="#000000" fill="none">
+                    <path d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M9.5 16.5L9.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M14.5 16.5L14.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </div>
+            </td>
+      `;    
+    tableBodyControl.append(newRow);
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    preload.classList.remove('flex');
+    preload.classList.add('hidden');
+  }
+})();
 });
 
 btnCancelar.addEventListener('click', async e => {
@@ -1537,20 +1679,21 @@ function sumarValoresPorNombre(nombre, elementos) {
 // crear un cierre
 btnHacerCierre.addEventListener('click', async e => {
   const fechaCierre = document.querySelector('#fecha-cierre').value;  
+
   // Obtener el valor de dolarVeneco
+  const fechas = document.querySelectorAll('.fechas');
+  const filasIguales = [];
+  fechas.forEach(p => {
+  const elementos = p.parentElement.parentElement.parentElement;
+  if (fechaCierre === elementos.children[0].children[0].children[0].innerHTML) {
+    filasIguales.push(elementos);
+  }
+  });
+  
   let dolarVeneco = dollarSource.value === 'BCV' ? dolarVenecoValue : parseFloat(inputDolarVeneco.value) || 0;
   if (!dolarVeneco) {
     dolarVeneco = await getDollarPrices();
   }
-
-    const fechas = document.querySelectorAll('.fechas');
-    const filasIguales = [];
-    fechas.forEach(p => {
-    const elementos = p.parentElement.parentElement.parentElement;
-    if (fechaCierre === elementos.children[0].children[0].children[0].innerHTML) {
-      filasIguales.push(elementos);
-    }
-    });
     
   // Obtener los valores de la tabla de cierre
   const totalPDV = sumarValoresPorNombre('PDV', filasIguales);
@@ -1568,7 +1711,6 @@ btnHacerCierre.addEventListener('click', async e => {
   preload.classList.remove('hidden');
   preload.classList.add('flex');
 
-  
   try {
     const { data } = await axios.post('/api/ventas', {
       fecha: fechaCierre,
@@ -1581,6 +1723,7 @@ btnHacerCierre.addEventListener('click', async e => {
       dolares_en_bs: dolaresEnBs,
     });
 
+    
     // Formatear la fecha
     const fecha = new Date(data.fecha);
     fecha.setDate(fecha.getDate() + 1);
@@ -1678,10 +1821,3 @@ tableBodyControl.addEventListener('click', async e => {
     }
   } 
 });
-
-} catch (error) {
-  console.log(error);
-} finally {
-  preload.classList.add('hidden');
-  preload.classList.remove('flex');
-}
