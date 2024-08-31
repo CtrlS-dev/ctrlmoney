@@ -1,3 +1,5 @@
+import { createNotification } from "../components/notification.js";
+
 const emailInput = document.querySelector('#email-input');
 const passwordInput = document.querySelector('#password-input');
 const form = document.querySelector('#form');
@@ -17,7 +19,10 @@ form.addEventListener('submit', async e => {
     window.location.pathname = `/facturas/`
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ error: 'Error al iniciar sesion' });
+    createNotification(true, error.response.data.error);
+    setTimeout(() => {
+      notification.innerHTML = "";
+    }, 5000);
   }
 });
 

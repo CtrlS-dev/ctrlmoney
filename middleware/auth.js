@@ -5,10 +5,9 @@ const userExtractor = async (request, response, next) => {
   try {
     const token = request.cookies?.accessToken;
     if (!token) {
-      window.location.href = '/login';
       return response.sendStatus(401);
     }
-    
+
     const decoded = jwt.verify(token, process.env.ACCES_TOKEN_SECRET);
     const user = await User.findById(decoded.id);
     request.user = user;
