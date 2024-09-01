@@ -1,38 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head>  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/views/facturas/index.css">
+  <link rel="stylesheet" href="index.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Home</title>
 </head>
-<body>
+<body class="bg-zinc-200">
   <!-- placeholder de barra de navegacion -->
-    <div id="navbar" class="animate__animated  animate__fadeInDown md:flex flex-col hidden fixed top-0 drop-shadow-lg left-0 items-center right-0 h-40 md:h-4 z-50 p-4"></div>
+  <nav id="navbar" class="fixed top-0 right-0 left-0 h-16"></nav>
   
 
 
 
 
 
-
-    
-  <div class="pt-16 h-screen flex justify-center items-center flex-col md:flex-row lg:w-3/5 md:mx-auto px-4 gap-4 md:gap-8">
-    <h1 class="text-slate-700 font-bold text-4xl md:text-7xl">CTRL Money</h1>
-    <div class="flex flex-col gap-4 md:text-xl">
-      <p class="text-justify">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolores ducimus veniam corrupti, amet dolorum adipisci saepe asperiores reprehenderit vel voluptas. Suscipit eos voluptate veniam quaerat ducimus exercitationem veritatis quidem minus!</p>
-      <!-- buttons -->
-      <div class="flex justify-around gap-4">
-        <a class="bg-slate-600 py-2 px-4 rounded text-white font-bold  w-2/4 text-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-slate-700 duration-300" href="/login">Login</a>
-        <a class="bg-slate-800 py-2 px-4 rounded text-white font-bold w-2/4 text-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-slate-700 duration-300" href="/signup" href="/signup">Registro</a>
+  <div class="relative w-full h-64 overflow-hidden top-16">
+    <!-- Carrusel -->
+    <div class="carousel flex transition-transform duration-500 ease-in-out">
+      <!-- Slide 1 -->
+      <div class="w-full flex-shrink-0 relative">
+        <img src="https://via.placeholder.com/800x400" alt="Imagen 1" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
+          <h2 class="text-white text-3xl font-bold">Título 1</h2>
+          <p class="text-white text-lg mt-2">Subtítulo 1</p>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="w-full flex-shrink-0 relative">
+        <img src="https://via.placeholder.com/800x400" alt="Imagen 2" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
+          <h2 class="text-white text-3xl font-bold">Título 2</h2>
+          <p class="text-white text-lg mt-2">Subtítulo 2</p>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="w-full flex-shrink-0 relative">
+        <img src="https://via.placeholder.com/800x400" alt="Imagen 3" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center">
+          <h2 class="text-white text-3xl font-bold">Título 3</h2>
+          <p class="text-white text-lg mt-2">Subtítulo 3</p>
+        </div>
       </div>
     </div>
+  
+    <!-- Controles -->
+    <button id="prev" class="absolute top-1/2 transform -translate-y-1/2 left-0 bg-gray-800 bg-opacity-50 text-white p-2">
+      &#10094;
+    </button>
+    <button id="next" class="absolute top-1/2 transform -translate-y-1/2 right-0 bg-gray-800 bg-opacity-50 text-white p-2">
+      &#10095;
+    </button>
   </div>
+  
 
 
 
 
   <script src="../components/nav.js"></script>
+  <script src="index.js" ></script>
 </body>
 </html>

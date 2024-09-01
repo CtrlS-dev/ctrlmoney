@@ -1,4 +1,4 @@
-// import { createNotification } from "../components/notification.js";
+import { createNotification } from "../components/notification.js";
 
 const form = document.querySelector('#form');
 const nameInput = document.querySelector('#name-input');
