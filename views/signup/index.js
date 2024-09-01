@@ -1,4 +1,4 @@
-import { createNotification } from "../components/notification.js";
+// import { createNotification } from "../components/notification.js";
 
 const form = document.querySelector('#form');
 const nameInput = document.querySelector('#name-input');
@@ -99,10 +99,11 @@ form.addEventListener('submit', async e => {
     validation(passwordInput, false);
     validation(matchInput, false);
   } catch (error) {
-    createNotification(true, error.response.data.error);
-    setTimeout(() => {
-      notification.innerHTML = "";
-    }, 5000);
+    // createNotification(true, error.response.data.error);
+    // setTimeout(() => {
+    //   notification.innerHTML = "";
+    // }, 5000);
+    console.log(error);
   } finally {
     preload.classList.remove('flex');
     preload.classList.add('hidden');
